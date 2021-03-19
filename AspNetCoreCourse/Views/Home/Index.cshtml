@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome, @ViewContext.HttpContext.User.Identity.Name</h1>
+    <p>Вы зашли в систему @User.FindFirst(x => x.Type == "authentification_datetime").Value</p>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <form asp-action="Signout" asp-controller="Account" asp-anti-forgery="true">
+        <div class="form-group">
+            <input type="submit" value="Выйти" class="btn btn-outline-dark" />
+        </div>
+    </form>
+</div>
