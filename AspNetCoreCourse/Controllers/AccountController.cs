@@ -53,6 +53,34 @@ namespace AspNetCoreCourse.Controllers
             }
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterModel model)
+        {
+            if (ModelState.IsValid)
+            {
+             /*   User user = await db.Users.FirstOrDefaultAsync(u => u.Login == model.Login);
+                if (user == null)
+                {
+                    // добавляем пользователя в бд
+                    db.Users.Add(new User { Login = model.Login, Password = model.Password });
+                    await db.SaveChangesAsync();
+
+                    await Authenticate(model.Login); // аутентификация
+
+                    return RedirectToAction("Index", "Home");
+                }
+                else*/
+                    ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+            }
+            return View(model);
+        }
         private async Task Authenticate(string userName)
         {
             // создаем один claim
