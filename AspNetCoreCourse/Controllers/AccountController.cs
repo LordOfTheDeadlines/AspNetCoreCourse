@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +15,12 @@ namespace AspNetCoreCourse.Controllers
 {
     public class AccountController : Controller
     {
-        static Dictionary<string, string> users = new Dictionary<string, string>
+
+        private ApplicationContext db;
+        public AccountController(ApplicationContext context)
         {
-            {"student","123" },
-            {"Kate","dino121" },
-            {"UFO28","helloWorld" }
-        };
+            db = context;
+        }
 
         [HttpGet]
         public IActionResult Login()
@@ -39,17 +40,14 @@ namespace AspNetCoreCourse.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User(model.Login, model.Password);
-                if (users.ContainsKey(user.Login))
+                //    User user = new User(model.Login, model.Password);
+                User user = await db.Users.FirstOrDefaultAsync(u => u.Login == model.Login && u.Password == model.Password);
+                if (user!=null)
                 {
-                    if (users[user.Login]==user.Password)
-                    {
-                        await Authenticate(model.Login);
-                        return RedirectToAction("Index", "Home");
-                    }
-                    ModelState.AddModelError("", "Неверный пароль");
+                    await Authenticate(model.Login);
+                    return RedirectToAction("Index", "Home");
                 }
-                else{ModelState.AddModelError("", "Пользователя не существует");}
+                else{ModelState.AddModelError("", "Некорректные логин и(или) пароль");}
             }
             return View(model);
         }
@@ -65,7 +63,7 @@ namespace AspNetCoreCourse.Controllers
         {
             if (ModelState.IsValid)
             {
-             /*   User user = await db.Users.FirstOrDefaultAsync(u => u.Login == model.Login);
+                User user = await db.Users.FirstOrDefaultAsync(u => u.Login == model.Login);
                 if (user == null)
                 {
                     // добавляем пользователя в бд
@@ -76,7 +74,7 @@ namespace AspNetCoreCourse.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
-                else*/
+                else
                     ModelState.AddModelError("", "Некорректные логин и(или) пароль");
             }
             return View(model);
