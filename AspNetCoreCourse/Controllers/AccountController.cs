@@ -1,4 +1,5 @@
-﻿using AspNetCoreCourse.Models;
+﻿using AspNetCoreCourse.Data;
+using AspNetCoreCourse.Models;
 using AspNetCoreCourse.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
