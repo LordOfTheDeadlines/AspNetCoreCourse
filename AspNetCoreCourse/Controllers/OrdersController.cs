@@ -28,22 +28,14 @@ namespace AspNetCoreCourse.Controllers
                 .OrderBy(o => o.OrderDate)
                 .ToListAsync();
 
-            var orders = _context.Orders.ToList();
-            var items = _context.Items.ToList();
-            var orderItems = _context.OrderItems.ToList();
+            var orders = _context.OrderItems
+                .Select(oi => new OrderModel(
+                    oi.Order.Id, oi.Order.OrderDate, 
+                    oi.Order.OrderNumber, oi.Amount, 
+                    oi.Amount*oi.Item.Price))
+                .ToArray();   
 
-            var test = _context.OrderItems.Select(oi => oi.Item.Id).ToList();
-
-            var order = from oi in orderItems
-                        join o in orders on oi.Order.Id equals o.Id
-                        join i in items on oi.Item.Id equals i.Id
-                        select new OrderModel(o.Id, o.OrderDate, o.OrderNumber, oi.Amount, oi.Amount * i.Price);
-            var order2 = _context.OrderItems
-                .Join(_context.Orders, oi => oi.Order.Id, o => o.Id,
-                (oi, o) => new OrderModel(o.Id, o.OrderDate, o.OrderNumber, oi.Amount, 0))
-                .ToList();   
-
-            return View(order);
+            return View(orders);
         }
 
         // GET: Orders/Details/5

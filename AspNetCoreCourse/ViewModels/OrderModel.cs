@@ -7,12 +7,12 @@ namespace AspNetCoreCourse.ViewModels
 {
     public class OrderModel
     {
-        public OrderModel(int orderIndex, DateTime orderDate, string orderNumber, int amount, double orderSum)
+        public OrderModel(int orderIndex, DateTime orderDate, string orderNumber,int itemsCount, double orderSum)
         {
             OrderIndex = orderIndex;
             OrderDate = orderDate;
             OrderNumber = orderNumber;
-            Amount = amount;
+            ItemsCount = itemsCount;
             OrderSum = orderSum;
         }
 
@@ -21,6 +21,5 @@ namespace AspNetCoreCourse.ViewModels
         public string OrderNumber { get; set; }
         public int ItemsCount { get; set; }
         public double OrderSum { get; set; }
-        public int Amount { get; }
     }
 }
