@@ -12,7 +12,6 @@ namespace AspNetCoreCourse.Models
     {
         [Key] public int Id { get; set; }
         public int Amount { get; set; }
-
         public Order Order { get; set; }
         public Item Item { get; set; }
     }

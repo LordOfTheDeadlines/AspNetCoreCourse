@@ -67,3 +67,4 @@ namespace AspNetCoreCourse.Migrations
         }
     }
 }
+

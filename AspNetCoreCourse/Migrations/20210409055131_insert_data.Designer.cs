@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AspNetCoreCourse.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210408131451_insert_data")]
+    [Migration("20210409055131_insert_data")]
     partial class insert_data
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
